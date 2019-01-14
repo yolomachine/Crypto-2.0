@@ -20,8 +20,8 @@ namespace Cryptography
 
 			public (BigInteger, BigInteger, BigInteger) Generate()
 			{
-				var p = Utils.GeneratePrime();
-				var q = Utils.GeneratePrime();
+				var p = Utils.GeneratePrime(120);
+				var q = Utils.GeneratePrime(120);
 				n = p * q;
 				var phi = (p - 1) * (q - 1);
 				e = Utils.RandomRange(2, phi);

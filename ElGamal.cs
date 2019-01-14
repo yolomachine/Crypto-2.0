@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 using System.Security.Cryptography;
 using System.Text;
@@ -23,10 +24,10 @@ namespace Cryptography
 
 			public (BigInteger, BigInteger, BigInteger, BigInteger) Generate()
 			{
-				var p = Utils.GeneratePrime(8);
-				var g = Utils.GetGroupGenerator(p, isPrime: true);
-				var x = Utils.RandomRange(1, p);
-				var y = BigInteger.ModPow(g, x, p);
+				p = Utils.GeneratePrime(8);
+				g = Utils.GetGroupGenerator(p, isPrime: true);
+				x = Utils.RandomRange(1, p);
+				y = BigInteger.ModPow(g, x, p);
 				return (p, g, x, y);
 			}
 
@@ -55,6 +56,14 @@ namespace Cryptography
 			}
 			return 
 				(BigInteger.ModPow(Keys.y, r, Keys.p) * BigInteger.ModPow(r, s, Keys.p)) % Keys.p == BigInteger.ModPow(Keys.g, H(m), Keys.p);
+		}
+
+		public static byte[] PackMessage(byte[] M, (BigInteger, BigInteger) sign)
+		{
+			var (r, s) = sign;
+			var pack = 
+				r.ToByteArray().ExtendTo().Concat(s.ToByteArray().ExtendTo()).Concat(M.Trim()).ToArray();
+			return pack;
 		}
 
 		private static BigInteger H(byte[] m)

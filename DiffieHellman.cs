@@ -7,10 +7,10 @@ namespace Cryptography
 		private static BigInteger a;
 		private static BigInteger b;
 
-		public static BigInteger g;
-		public static BigInteger p;
-		public static BigInteger A;
-		public static BigInteger B;
+		internal static BigInteger g;
+		internal static BigInteger p;
+		internal static BigInteger A;
+		internal static BigInteger B;
 
 		public static class Alice
 		{
